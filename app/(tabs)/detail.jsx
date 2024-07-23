@@ -34,7 +34,7 @@ const Detail = () => {
       }
 
       // Replace with your BLE device's unique identifier or name
-      const TARGET_DEVICE_NAME = 'Your-BLE-Device-Name';
+      const TARGET_DEVICE_NAME = 'HMSoft';
 
       if (scannedDevice.name === TARGET_DEVICE_NAME) {
         manager.stopDeviceScan();
@@ -46,8 +46,8 @@ const Detail = () => {
           })
           .then(device => {
             // Replace with your characteristic UUID
-            const CHARACTERISTIC_UUID = 'your-characteristic-uuid';
-            return device.readCharacteristicForService('your-service-uuid', CHARACTERISTIC_UUID);
+            const CHARACTERISTIC_UUID = '0xFFE1';
+            return device.readCharacteristicForService('0xFFE0', CHARACTERISTIC_UUID);
           })
           .then(characteristic => {
             // Extract and format your data here
