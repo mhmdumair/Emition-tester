@@ -18,60 +18,64 @@ const Detail = () => {
     const bleManager = new BleManager();
     setManager(bleManager);
 
+    const connectToDevice = async () => {
+      bleManager.startDeviceScan(null, null, (error, scannedDevice) => {
+        if (error) {
+          console.error(error);
+          return;
+        }
+        const TARGET_DEVICE_NAME = 'HMSoft';
+
+        if (scannedDevice.name === TARGET_DEVICE_NAME) {
+          bleManager.stopDeviceScan();
+
+          scannedDevice.connect()
+            .then(device => {
+              setDevice(device);
+              return device.discoverAllServicesAndCharacteristics();
+            })
+            .catch(error => {
+              console.error("Error connecting or discovering services:", error);
+            });
+        }
+      });
+
+      // Stop scanning after 10 seconds
+      setTimeout(() => bleManager.stopDeviceScan(), 10000);
+    };
+
+    connectToDevice();
+
     return () => {
       bleManager.destroy();
     };
   }, []);
 
   const scan = async () => {
-    if (!manager) return;
+    if (!device) {
+      Alert.alert("Device not connected", "Please ensure the Bluetooth device is connected.");
+      return;
+    }
 
-    // Start scanning for BLE devices
-    manager.startDeviceScan(null, null, (error, scannedDevice) => {
-      if (error) {
-        console.error(error);
-        return;
-      }
-
-      // Replace with your BLE device's unique identifier or name
-      const TARGET_DEVICE_NAME = 'HMSoft';
-
-      if (scannedDevice.name === TARGET_DEVICE_NAME) {
-        manager.stopDeviceScan();
-
-        scannedDevice.connect()
-          .then(device => {
-            setDevice(device);
-            return device.discoverAllServicesAndCharacteristics();
-          })
-          .then(device => {
-            // Replace with your characteristic UUID
-            const CHARACTERISTIC_UUID = '0xFFE1';
-            return device.readCharacteristicForService('0xFFE0', CHARACTERISTIC_UUID);
-          })
-          .then(characteristic => {
-            // Extract and format your data here
-            const value = characteristic.value;
-            const decodedValue = decode(value); // Use the updated decode function
-            setData({
-              name: form.name,
-              nic: form.nic,
-              vehicleNumber: form.vehicleNumber,
-              co: decodedValue.co,
-              hc: decodedValue.hc,
-              time: new Date(),
-              result: decodedValue.result,
-              additionalDetails: decodedValue.additionalDetails
-            });
-          })
-          .catch(error => {
-            console.error("Error connecting or reading from BLE device:", error);
-          });
-      }
-    });
-
-    // Stop scanning after 10 seconds
-    setTimeout(() => manager.stopDeviceScan(), 10000);
+    // Replace with your characteristic UUID
+    const CHARACTERISTIC_UUID = '0xFFE1';
+    try {
+      const characteristic = await device.readCharacteristicForService('0xFFE0', CHARACTERISTIC_UUID);
+      const value = characteristic.value;
+      const decodedValue = decode(value); // Use the updated decode function
+      setData({
+        name: form.name,
+        nic: form.nic,
+        vehicleNumber: form.vehicleNumber,
+        co: decodedValue.co,
+        hc: decodedValue.hc,
+        time: new Date(),
+        result: decodedValue.result,
+        additionalDetails: decodedValue.additionalDetails
+      });
+    } catch (error) {
+      console.error("Error reading characteristic:", error);
+    }
   };
 
   const handleSave = async () => {
