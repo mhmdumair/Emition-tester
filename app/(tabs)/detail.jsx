@@ -32,6 +32,10 @@ const Detail = () => {
           scannedDevice.connect()
             .then(device => {
               setDevice(device);
+              setPopup("Successfully Connected to the device");
+              setTimeout(() => {
+                setPopup("");
+              }, 3000);
               return device.discoverAllServicesAndCharacteristics();
             })
             .catch(error => {
@@ -57,7 +61,6 @@ const Detail = () => {
       return;
     }
 
-    // Replace with your characteristic UUID
     const CHARACTERISTIC_UUID = '0xFFE1';
     try {
       const characteristic = await device.readCharacteristicForService('0xFFE0', CHARACTERISTIC_UUID);
