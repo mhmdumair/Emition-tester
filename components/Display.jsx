@@ -81,7 +81,7 @@ const Display = ({data ,history}) => {
             </Text>
             <Text>: {" "}</Text>
             <Text className = "flex-1 text-base">
-               {data.co}%
+               {data.co} ppm
             </Text>
           </View>
 
@@ -91,7 +91,7 @@ const Display = ({data ,history}) => {
             </Text>
             <Text>: {" "}</Text>
             <Text className = "flex-1 text-base">
-               {data.hc}
+               {data.hc} ppm
             </Text>
           </View>
 

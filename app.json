@@ -2,7 +2,7 @@
   "expo": {
     "name": "Emition-tester",
     "slug": "Emition-tester",
-    "scheme": "Emition-tester",
+    "scheme": "emition-tester",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -24,13 +24,27 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "permissions": [
+        "android.permission.BLUETOOTH",
+        "android.permission.BLUETOOTH_ADMIN",
+        "android.permission.BLUETOOTH_CONNECT"
+      ],
       "package": "com.anukah.Emitiontester"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-router"
-    ]
+      "expo-router",
+      "react-native-ble-plx"
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "4f537e29-0ddf-41fa-a29a-092789377ee7"
+      }
+    }
   }
 }
