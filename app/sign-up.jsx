@@ -19,6 +19,10 @@ export default function SignUp() {
 
   const signUp = async () => {
     try {
+      formValue.name = formValue.name.trim();
+      formValue.nic = formValue.nic.trim();
+      formValue.vehicleNumber = formValue.vehicleNumber.trim();
+  
       if (!formValue.name || !formValue.vehicleNumber || !formValue.nic) {
         setErr("Please provide all the information");
         setTimeout(() => {
@@ -26,15 +30,15 @@ export default function SignUp() {
         }, 3000);
         return;
       }
-
+  
       const users = await getAllUser();
       const user = users.find(data => 
         data.vehicleNumber === formValue.vehicleNumber && data.nic === formValue.nic);
-
+  
       if (!user) {
         const newUser = await createUser(formValue);
-        setForm(formValue)
-        router.push('detail')
+        setForm(formValue);
+        router.push('detail');
       } else {
         setErr("User already exists");
         setTimeout(() => {
@@ -49,6 +53,7 @@ export default function SignUp() {
       }, 3000);
     }
   };
+  
 
 
   const [err,setErr] = useState("")
