@@ -17,7 +17,6 @@ export default function SignIn() {
   });
   const [err, setErr] = useState('');
 
-  // Effect to check if the user is already logged in
   useEffect(() => {
     if (form && form.name) {
       setErr(`${form.name} already logged in`);
@@ -26,15 +25,17 @@ export default function SignIn() {
   }, [form]);
 
   const signIn = async () => {
+    if (form && form.name) {
+      router.push('detail');
+      return
+    }
     try {
-      // Trim the input values
       const trimmedFormValue = {
         name: formValue.name.trim(),
         vehicleNumber: formValue.vehicleNumber.trim(),
         nic: formValue.nic.trim(),
       };
 
-      // Validate input
       if (!trimmedFormValue.name || !trimmedFormValue.vehicleNumber || !trimmedFormValue.nic) {
         setErr('Please provide all the information');
         setTimeout(() => setErr(''), 3000);
@@ -50,11 +51,9 @@ export default function SignIn() {
       );
 
       if (user) {
-        // Set trimmed values to the global context
         setForm(trimmedFormValue);
         router.push('detail');
 
-        // Clear the form
         setFormValue({
           name: '',
           nic: '',
@@ -76,8 +75,6 @@ export default function SignIn() {
       <ScrollView>
         <View className="w-full justify-center items-center min-h-[85vh] px-4 my-6">
           <Text className="text-4xl text-white font-pbold mt-4">Emition Tester</Text>
-
-          {err && <Text className="text-base text-red-500 mt-4">{err}</Text>}
 
           <InputField
             title="Name"
@@ -106,6 +103,8 @@ export default function SignIn() {
             containerStyle="mt-8 w-full min-h-[60px]"
             textStyles="text-xl"
           />
+
+          {err && <Text className="text-base text-secondary-200 mt-4">{err}</Text>}
 
           <View className="my-2">
             <Text className="text-white text-[18px] mt-3">

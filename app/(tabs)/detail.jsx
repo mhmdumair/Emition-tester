@@ -10,9 +10,8 @@ const Detail = () => {
   const [data, setData] = useState(null);
   const { form } = useGlobalContext();
   const [popup, setPopup] = useState("");
-  const [isConnected, setIsConnected] = useState(false); // Track connection status
+  const [isConnected, setIsConnected] = useState(false); 
 
-  // ESP32 server address (update this with the actual IP of your ESP32)
   const ESP32_SERVER_URL = "http://192.168.235.164:3000"; 
 
   useEffect(() => {
@@ -92,7 +91,6 @@ const Detail = () => {
     }
   };
 
-  // Decode function with minimum level checks
   const decode = (json) => {
     const coLevel = parseFloat(json.co);
     const hcLevel = parseFloat(json.hc);
