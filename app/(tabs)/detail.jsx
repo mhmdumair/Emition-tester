@@ -12,7 +12,7 @@ const Detail = () => {
   const [popup, setPopup] = useState("");
   const [isConnected, setIsConnected] = useState(false); 
 
-  const ESP32_SERVER_URL = "http://192.168.235.164:3000"; 
+  const ESP32_SERVER_URL = "http://192.168.1.65:3000"; 
 
   useEffect(() => {
     // Simulate connection check
