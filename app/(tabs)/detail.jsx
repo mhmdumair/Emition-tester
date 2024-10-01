@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Alert } from 'react-native';
+import { View, Text, ScrollView, Alert,RefreshControl } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useGlobalContext } from '../../contaxt/GlobalProvider';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,8 +11,10 @@ const Detail = () => {
   const { form } = useGlobalContext();
   const [popup, setPopup] = useState("");
   const [isConnected, setIsConnected] = useState(false); 
+  const [refreshing, setRefreshing] = useState(false);
 
-  const ESP32_SERVER_URL = "http://192.168.1.65:3000"; 
+
+  const ESP32_SERVER_URL = "http://192.168.235.164:3000"; 
 
   useEffect(() => {
     // Simulate connection check
@@ -48,11 +50,16 @@ const Detail = () => {
       Alert.alert("Device not connected", "Please ensure the ESP32 device is connected.");
       return;
     }
+    
 
     try {
       const response = await fetch(`${ESP32_SERVER_URL}/data`);
       const json = await response.json();
       const decodedValue = decode(json);
+
+      if (json.temperature > 40) {
+        Alert.alert("Overheated","Device is Overheated");
+      }
 
       setData({
         name: form.name,
@@ -114,9 +121,19 @@ const Detail = () => {
     };
   };
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await checkConnection(); 
+    setRefreshing(false);
+  };
+
   return (
     <SafeAreaView className="bg-primary h-full">
-      <ScrollView>
+      <ScrollView
+         refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <View className="w-full justify-center items-center">
           <Text className="text-3xl text-secondary-200 font-semibold my-8 text-center">
             Hi {form.name}
