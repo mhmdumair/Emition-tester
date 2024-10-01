@@ -15,7 +15,7 @@ const Detail = () => {
   const [display,setDisplay] = useState("Scan for Your Test Results")
 
 
-  const ESP32_SERVER_URL = "http://192.168.1.164:3000"; 
+  const ESP32_SERVER_URL = "http://192.168.1.65:3000"; 
 
   useEffect(() => {
     checkConnection();
