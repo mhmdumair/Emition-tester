@@ -12,12 +12,12 @@ const Detail = () => {
   const [popup, setPopup] = useState("");
   const [isConnected, setIsConnected] = useState(false); 
   const [refreshing, setRefreshing] = useState(false);
+  const [display,setDisplay] = useState("Scan for Your Test Results")
 
 
   const ESP32_SERVER_URL = "http://192.168.1.101:3000"; 
 
   useEffect(() => {
-    // Simulate connection check
     checkConnection();
 
     return () => {
@@ -26,7 +26,6 @@ const Detail = () => {
   }, []);
 
   const checkConnection = () => {
-    // Check if connected to the Wi-Fi or if the server is reachable
     setPopup("Connecting to ESP32 device...");
     fetch(`${ESP32_SERVER_URL}/data`)
       .then(response => {
@@ -50,35 +49,60 @@ const Detail = () => {
       Alert.alert("Device not connected", "Please ensure the  device is connected.");
       return;
     }
-    
-
-    try {
-      const response = await fetch(`${ESP32_SERVER_URL}/data`);
-      const json = await response.json();
-      const decodedValue = decode(json);
-
-      if (json.temperature > 40) {
-        Alert.alert("Overheated","Device is Overheated");
+  
+    // Immediately clear any previous data and set the display to "Scanning 0%"
+    setData(null);
+    setDisplay("Scanning 0%");
+  
+    let elapsed = 0;
+    const scanDuration = 35000; // 35 seconds
+    const intervalTime = 1000; // 1 second for updating the percentage
+  
+    // Start a timer to track the progress percentage
+    const interval = setInterval(() => {
+      elapsed += intervalTime;
+      const progress = Math.min(Math.floor((elapsed / scanDuration) * 100), 100);
+      setDisplay(`Scanning  ${progress}%`);
+  
+      if (elapsed >= scanDuration) {
+        clearInterval(interval); // Stop updating once 35 seconds have passed
       }
-
-      setData({
-        name: form.name,
-        nic: form.nic,
-        vehicleNumber: form.vehicleNumber,
-        co: decodedValue.co,
-        hc: decodedValue.hc,
-        time: new Date(),
-        result: decodedValue.result,
-        additionalDetails: decodedValue.additionalDetails
-      });
-
-      setPopup("Data successfully retrieved");
-      setTimeout(() => setPopup(""), 3000);
-    } catch (error) {
-      console.error("Error fetching data from ESP32:", error);
-      Alert.alert("Error", "Failed to retrieve data.");
-    }
+    }, intervalTime);
+  
+    setTimeout(async () => {
+      try {
+        const response = await fetch(`${ESP32_SERVER_URL}/data`);
+        const json = await response.json();
+        const decodedValue = decode(json);
+  
+        if (json.temperature > 40) {
+          Alert.alert("Overheated", "Device is Overheated");
+        }
+  
+        setData({
+          name: form.name,
+          nic: form.nic,
+          vehicleNumber: form.vehicleNumber,
+          co: decodedValue.co,
+          hc: decodedValue.hc,
+          time: new Date(),
+          result: decodedValue.result,
+          additionalDetails: decodedValue.additionalDetails,
+        });
+  
+        setDisplay("");
+        setPopup("Data successfully retrieved");
+        setTimeout(() => setPopup(""), 3000);
+      } catch (error) {
+        console.error("Error fetching data from ESP32:", error);
+        Alert.alert("Error", "Failed to retrieve data.");
+      }
+  
+      clearInterval(interval); // Clear the interval when scan is done
+    }, scanDuration); // 35 seconds delay
   };
+  
+  
 
   const handleSave = async () => {
     try {
@@ -144,7 +168,7 @@ const Detail = () => {
           ) : (
             <View className="justify-center items-center w-[90%] h-fit min-h-[450px] bg-white rounded-xl p-4">
               <Text className="text-[18px]">
-                Scan for Your Test Results
+                {display}
               </Text>
             </View>
           )}
