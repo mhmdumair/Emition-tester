@@ -16,7 +16,7 @@ const fetchData = async () => {
   try {
     const result = await getAllTestDocs();
 
-    const search = result.filter(data => data.vehicleNumber === form.vehicleNumber);
+    const search = result.filter(data => data.vehicleNumber === form.vehicleNumber && data.name === form.name);
 
     search.sort((a, b) => {
       const dateA = a.time.toDate(); 

@@ -14,7 +14,7 @@ const Detail = () => {
   const [refreshing, setRefreshing] = useState(false);
 
 
-  const ESP32_SERVER_URL = "http://192.168.1.65:3000"; 
+  const ESP32_SERVER_URL = "http://192.168.1.101:3000"; 
 
   useEffect(() => {
     // Simulate connection check
@@ -47,7 +47,7 @@ const Detail = () => {
 
   const scan = async () => {
     if (!isConnected) {
-      Alert.alert("Device not connected", "Please ensure the ESP32 device is connected.");
+      Alert.alert("Device not connected", "Please ensure the  device is connected.");
       return;
     }
     

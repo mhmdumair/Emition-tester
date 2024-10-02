@@ -74,7 +74,7 @@ export default function SignIn() {
     <SafeAreaView className="bg-primary h-full">
       <ScrollView>
         <View className="w-full justify-center items-center min-h-[85vh] px-4 my-6">
-          <Text className="text-4xl text-white font-pbold mt-4">Emition Tester</Text>
+          <Text className="text-4xl text-white font-pbold mt-4">Emission Tester</Text>
 
           <InputField
             title="Name"
