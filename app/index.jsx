@@ -71,10 +71,10 @@ export default function SignIn() {
   };
 
   return (
-    <SafeAreaView className="bg-primary h-full">
+    <SafeAreaView className="bg-[#A0A0A0] h-full">
       <ScrollView>
         <View className="w-full justify-center items-center min-h-[85vh] px-4 my-6">
-          <Text className="text-4xl text-white font-pbold mt-4">Emission Tester</Text>
+          <Text className="text-[60px] text-[#ABC240] font-pbold mt-4">EcoMate</Text>
 
           <InputField
             title="Name"
@@ -104,12 +104,12 @@ export default function SignIn() {
             textStyles="text-xl"
           />
 
-          {err && <Text className="text-base text-secondary-200 mt-4">{err}</Text>}
+          {err && <Text className="text-base text-[#2F3825] mt-4">{err}</Text>}
 
           <View className="my-2">
             <Text className="text-white text-[18px] mt-3">
               If you are new here?{' '}
-              <Link href="/sign-up" className="text-secondary-100">
+              <Link href="/sign-up" className="text-[#2F3825] underline ml-2" >
                 Sign Up
               </Link>
             </Text>

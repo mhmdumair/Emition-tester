@@ -30,7 +30,7 @@ const ListItem = ({data}) => {
             </View>
             <CustomButton
                 title= "See More"
-                containerStyle="w-fit px-2 max-h-[50px]"
+                containerStyle="w-fit px-4 max-h-[50px]"
                 textStyles="text-base"
                 handlepress={()=>setSeeMore(!seeMore)}
             /> 

@@ -49,14 +49,14 @@ const fetchData = async () => {
   };
 
   return (
-    <SafeAreaView className="bg-primary h-full">
+    <SafeAreaView className="bg-[#A0A0A0] h-full">
       <ScrollView
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
         <View>
-          <Text className="text-3xl text-secondary-200 font-psemibold my-8 text-center">
+          <Text className="text-3xl text-black font-psemibold my-8 text-center">
             Your Test History
           </Text>
 

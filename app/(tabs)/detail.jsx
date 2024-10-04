@@ -15,7 +15,7 @@ const Detail = () => {
   const [display,setDisplay] = useState("Scan for Your Test Results")
 
 
-  const ESP32_SERVER_URL = "http://192.168.1.101:3000"; 
+  const ESP32_SERVER_URL = "http://192.168.1.100:3000"; 
 
   useEffect(() => {
     checkConnection();
@@ -55,7 +55,7 @@ const Detail = () => {
     setDisplay("Scanning 0%");
   
     let elapsed = 0;
-    const scanDuration = 35000; // 35 seconds
+    const scanDuration = 15000; // 15 seconds
     const intervalTime = 1000; // 1 second for updating the percentage
   
     // Start a timer to track the progress percentage
@@ -126,8 +126,8 @@ const Detail = () => {
     const coLevel = parseFloat(json.co);
     const hcLevel = parseFloat(json.hc);
 
-    const MIN_CO_LEVEL = 1.0;
-    const MIN_HC_LEVEL = 2.0;
+    const MIN_CO_LEVEL = 30;
+    const MIN_HC_LEVEL = 1000;
 
     let result = "Pass";
     let additionalDetails = "You should check regularly to maintain your vehicle condition.";
@@ -152,14 +152,14 @@ const Detail = () => {
   };
 
   return (
-    <SafeAreaView className="bg-primary h-full">
+    <SafeAreaView className="bg-[#A0A0A0] h-full">
       <ScrollView
          refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
         <View className="w-full justify-center items-center">
-          <Text className="text-3xl text-secondary-200 font-semibold my-8 text-center">
+          <Text className="text-[35px] text-black font-semibold my-8 text-center">
             Hi {form.name}
           </Text>
 
@@ -191,7 +191,7 @@ const Detail = () => {
         </View>
 
         {popup && (
-          <Text className="text-base text-secondary-200 mt-4 text-center">
+          <Text className="text-base text-black mt-4 text-center">
             {popup}
           </Text>
         )}

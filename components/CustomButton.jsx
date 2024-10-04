@@ -3,12 +3,12 @@ import React from 'react'
 
 const CustomButton = ({title,handlepress,containerStyle,textStyles}) => {
   return (
-    <TouchableOpacity className={`bg-secondary rounded-xl justify-center items-center ${containerStyle}  `}
+    <TouchableOpacity className={`bg-[#0855B1] rounded-xl justify-center items-center ${containerStyle}  `}
     onPress={handlepress}
     activeOpacity = {0.7}
   
     >
-        <Text className={`text-primary  font-psemibold  ${textStyles}`}>
+        <Text className={`text-[#EAEAEA]  font-psemibold  ${textStyles}`}>
            {title}
         </Text>
     </TouchableOpacity>

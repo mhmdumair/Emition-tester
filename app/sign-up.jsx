@@ -59,15 +59,13 @@ export default function SignUp() {
   const [err,setErr] = useState("")
 
   return (
-    <SafeAreaView className ="bg-primary h-full">
+    <SafeAreaView className ="bg-[#A0A0A0] h-full">
     <ScrollView>
 
       <View className="w-full justify-center items-center min-h-[85vh] px-4 my-6">
 
        
-        <Text className="text-4xl text-white font-pbold mt-4">
-          Emition Tester
-        </Text>
+      <Text className="text-[60px] text-[#ABC240] font-pbold mt-4">EcoMate</Text>
 
         <InputField
           title= "Name"
@@ -103,7 +101,7 @@ export default function SignUp() {
 
         <View className="my-2">
           <Text className= "text-white text- text-[18px] mt-3">
-            if you are already here?{"  "} <Link href='/' className="text-secondary-100 ">Sign in</Link>
+            if you are already here?{"  "} <Link href='/' className="text-[#2F3825] underline">Sign in</Link>
           </Text>
         </View>
 
